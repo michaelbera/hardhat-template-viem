@@ -2,6 +2,10 @@
   "name": "hardhat-template-viem",
   "version": "1.0.0",
   "type": "module",
+  "author": {
+    "name": "Michael",
+    "url": "https://github.com/michaelbera"
+  },
   "scripts": {
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
@@ -21,6 +25,7 @@
     "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.2",
     "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
     "eslint": "^9.38.0",
     "eslint-config-prettier": "^10.1.8",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
@@ -31,5 +36,23 @@
     "solhint-plugin-prettier": "^0.1.0",
     "typescript": "~5.8.0",
     "viem": "^2.30.0"
-  }
+  },
+  "files": [
+    "contracts"
+  ],
+  "keywords": [
+    "blockchain",
+    "ethers",
+    "ethereum",
+    "hardhat",
+    "smart-contracts",
+    "solidity",
+    "template",
+    "typescript",
+    "viem"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {}
 }

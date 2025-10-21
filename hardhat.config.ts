@@ -1,6 +1,36 @@
 import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
+// Get the environment configuration from .env file
+//
+// To make use of automatic environment setup:
+// - Duplicate .env.example file and name it .env
+// - Fill in the environment variables
+import dotenv from "dotenv";
 import type { HardhatUserConfig } from "hardhat/config";
 import { configVariable } from "hardhat/config";
+import { HttpNetworkAccountsUserConfig } from "hardhat/types/config";
+
+dotenv.config({ path: `.env.${process.env.NODE_ENV || "example"}` });
+
+// Set your preferred authentication method
+//
+// If you prefer using a mnemonic, set a MNEMONIC environment variable
+// to a valid mnemonic
+const MNEMONIC = process.env.MNEMONIC;
+
+// If you prefer to be authenticated using a private key, set a PRIVATE_KEY environment variable
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
+
+const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
+  ? { mnemonic: MNEMONIC }
+  : PRIVATE_KEY
+    ? [PRIVATE_KEY]
+    : undefined;
+
+if (accounts == null) {
+  console.warn(
+    "Could not find MNEMONIC or PRIVATE_KEY environment variables. It will not be possible to execute transactions in your example.",
+  );
+}
 
 const config: HardhatUserConfig = {
   plugins: [hardhatToolboxViemPlugin],
@@ -11,18 +41,26 @@ const config: HardhatUserConfig = {
     tests: "./test",
   },
   solidity: {
+    settings: {
+      metadata: {
+        // Not including the metadata hash
+        // https://github.com/paulrberg/hardhat-template/issues/31
+        bytecodeHash: "none",
+      },
+      // Disable the optimizer when debugging
+      // https://hardhat.org/hardhat-network/#solidity-optimizer-support
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+      viaIR: true,
+    },
     profiles: {
       default: {
         version: "0.8.28",
       },
       production: {
         version: "0.8.28",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
       },
     },
   },
@@ -34,12 +72,13 @@ const config: HardhatUserConfig = {
     hardhatOp: {
       type: "edr-simulated",
       chainType: "op",
+      allowBlocksWithSameTimestamp: true,
     },
-    sepolia: {
+    bepolia: {
       type: "http",
       chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+      accounts,
+      url: configVariable("RPC_URL"),
     },
   },
 };
