@@ -2,12 +2,33 @@
   "name": "hardhat-template-viem",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json",
+    "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
+    "deploy:contracts": "hardhat deploy",
+    "lint": "bun run lint:sol && bun run lint:ts && bun run prettier:check",
+    "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
+    "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",
+    "prettier:check": "prettier --check \"**/*.{js,json,md,sol,ts,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{js,json,md,sol,ts,yml}\"",
+    "test": "hardhat test"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.0",
     "@nomicfoundation/hardhat-toolbox-viem": "^5.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.8.5",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
+    "@typescript-eslint/parser": "^8.46.2",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
     "hardhat": "^3.0.7",
+    "prettier": "^3.6.2",
+    "prettier-plugin-solidity": "^2.1.0",
+    "solhint": "^6.0.1",
+    "solhint-plugin-prettier": "^0.1.0",
     "typescript": "~5.8.0",
     "viem": "^2.30.0"
   }
