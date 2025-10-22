@@ -1,66 +1,206 @@
-# Sample Hardhat 3 Beta Project (`node:test` and `viem`)
+# Hardhat Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
 
-This project showcases a Hardhat 3 Beta project using the native Node.js test runner (`node:test`) and the `viem`
-library for Ethereum interactions.
+[gitpod]: https://gitpod.io/#https://github.com/paulrberg/hardhat-template
+[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
+[gha]: https://github.com/paulrberg/hardhat-template/actions
+[gha-badge]: https://github.com/paulrberg/hardhat-template/actions/workflows/ci.yml/badge.svg
+[hardhat]: https://hardhat.org/
+[hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
+[license]: https://opensource.org/licenses/MIT
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-To learn more about the Hardhat 3 Beta, please visit the
-[Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your
-feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or
-[open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
 
-## Project Overview
+- [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
+- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
+- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
+- [Solhint](https://github.com/protofire/solhint): code linter
+- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
+- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
 
-This example project includes:
+## Getting Started
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using [`node:test`](nodejs.org/api/test.html), the new Node.js native test runner, and
-  [`viem`](https://viem.sh/).
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+Click the [`Use this template`](https://github.com/paulrberg/hardhat-template/generate) button at the top of the page to
+create a new repository with this repo as the initial state.
+
+## Features
+
+This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
+please consult their respective documentations.
+
+For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the
+[Hardhat Docs](https://hardhat.org/docs). You might be in particular interested in reading the
+[Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
+
+### Sensible Defaults
+
+This template comes with sensible default configurations in the following files:
+
+```text
+├── .editorconfig
+├── .eslintignore
+├── .eslintrc.yml
+├── .gitignore
+├── .prettierignore
+├── .prettierrc.yml
+├── .solcover.js
+├── .solhint.json
+└── hardhat.config.ts
+```
+
+### VSCode Integration
+
+This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Nomic
+Foundation's [Solidity extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity).
+
+### GitHub Actions
+
+This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
+request made to the `main` branch.
+
+Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
+
+For more information on how to set up GitHub secrets, check out the
+[docs](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions).
+
+You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
 
 ## Usage
 
-### Running Tests
+### Pre Requisites
 
-To run all the tests in the project, execute the following command:
+First, you need to install the dependencies:
 
-```shell
-npx hardhat test
+```sh
+bun install
 ```
 
-You can also selectively run the Solidity or `node:test` tests:
+Then, you need to set up all the required
+[Hardhat Configuration Variables](https://hardhat.org/hardhat-runner/docs/guides/configuration-variables). You might
+also want to install some that are optional.
 
-```shell
-npx hardhat test solidity
-npx hardhat test nodejs
+To assist with the setup process, run `bunx hardhat vars setup`. To set a particular value, such as a BIP-39 mnemonic
+variable, execute this:
+
+```sh
+bunx hardhat vars set MNEMONIC
+? Enter value: ‣ here is where your twelve words mnemonic should be put my friend
 ```
 
-### Make a deployment to Sepolia
+If you do not already have a mnemonic, you can generate one using this [website](https://iancoleman.io/bip39/).
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally
-simulated chain or to Sepolia.
+### Compile
 
-To run the deployment to a local chain:
+Compile the smart contracts with Hardhat:
 
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
+```sh
+bun run compile
 ```
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat
-configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key
-of the account you want to use.
+### TypeChain
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment
-variable.
+Compile the smart contracts and generate TypeChain bindings:
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
-
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+```sh
+bun run typechain
 ```
 
-After setting the variable, you can run the deployment with the Sepolia network:
+### Test
 
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
+Run the tests with Hardhat:
+
+```sh
+bun run test
 ```
+
+### Lint Solidity
+
+Lint the Solidity code:
+
+```sh
+bun run lint:sol
+```
+
+### Lint TypeScript
+
+Lint the TypeScript code:
+
+```sh
+bun run lint:ts
+```
+
+### Coverage
+
+Generate the code coverage report:
+
+```sh
+bun run coverage
+```
+
+### Report Gas
+
+See the gas usage per unit test and average gas per method call:
+
+```sh
+REPORT_GAS=true bun run test
+```
+
+### Clean
+
+Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
+
+```sh
+bun run clean
+```
+
+### Deploy
+
+Deploy the contracts to Hardhat Network:
+
+```sh
+bun run deploy:contracts
+```
+
+### Tasks
+
+#### Deploy Lock
+
+Deploy a new instance of the Lock contract via a task:
+
+```sh
+bun run task:deployLock --unlock 100 --value 0.1
+```
+
+### Syntax Highlighting
+
+If you use VSCode, you can get Solidity syntax highlighting with the
+[hardhat-solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity) extension.
+
+## Using GitPod
+
+[GitPod](https://www.gitpod.io/) is an open-source developer platform for remote development.
+
+To view the coverage report generated by `bun run coverage`, just click `Go Live` from the status bar to turn the server
+on/off.
+
+## Local development with Ganache
+
+### Install Ganache
+
+```sh
+npm i -g ganache
+```
+
+### Run a Development Blockchain
+
+```sh
+ganache -s test
+```
+
+> The `-s test` passes a seed to the local chain and makes it deterministic
+
+Make sure to set the mnemonic in your `.env` file to that of the instance running with Ganache.
+
+## License
+
+This project is licensed under MIT.
