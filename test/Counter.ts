@@ -1,7 +1,6 @@
+import { network } from "hardhat";
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-
-import { network } from "hardhat";
 
 describe("Counter", async function () {
   const { viem } = await network.connect();
@@ -10,12 +9,7 @@ describe("Counter", async function () {
   it("Should emit the Increment event when calling the inc() function", async function () {
     const counter = await viem.deployContract("Counter");
 
-    await viem.assertions.emitWithArgs(
-      counter.write.inc(),
-      counter,
-      "Increment",
-      [1n],
-    );
+    await viem.assertions.emitWithArgs(counter.write.inc(), counter, "Increment", [1n]);
   });
 
   it("The sum of the Increment events should match the current value", async function () {

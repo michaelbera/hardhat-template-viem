@@ -6,7 +6,6 @@ import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 // - Fill in the environment variables
 import dotenv from "dotenv";
 import type { HardhatUserConfig } from "hardhat/config";
-import { configVariable } from "hardhat/config";
 import { HttpNetworkAccountsUserConfig } from "hardhat/types/config";
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV || "example"}` });
@@ -20,6 +19,10 @@ const MNEMONIC = process.env.MNEMONIC;
 // If you prefer to be authenticated using a private key, set a PRIVATE_KEY environment variable
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
+if (MNEMONIC && PRIVATE_KEY) {
+  throw new Error("Both MNEMONIC and PRIVATE_KEY environment variables are set. PRIVATE_KEY will take precedence.");
+}
+
 const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
   ? { mnemonic: MNEMONIC }
   : PRIVATE_KEY
@@ -27,7 +30,7 @@ const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
     : undefined;
 
 if (accounts == null) {
-  console.warn(
+  throw new Error(
     "Could not find MNEMONIC or PRIVATE_KEY environment variables. It will not be possible to execute transactions in your example.",
   );
 }
@@ -78,7 +81,7 @@ const config: HardhatUserConfig = {
       type: "http",
       chainType: "l1",
       accounts,
-      url: configVariable("RPC_URL"),
+      url: process.env.RPC_URL!,
     },
   },
 };
