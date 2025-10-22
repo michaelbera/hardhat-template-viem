@@ -9,13 +9,14 @@
   "scripts": {
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
-    "deploy:contracts": "hardhat deploy",
-    "lint": "bun run lint:sol && bun run lint:ts && bun run prettier:check",
+    "lint": "$npm_execpath run lint:ts && $npm_execpath run lint:sol",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",
-    "prettier:check": "prettier --check \"**/*.{js,json,md,sol,ts,yml}\"",
-    "prettier:write": "prettier --write \"**/*.{js,json,md,sol,ts,yml}\"",
+    "lint:fix": "eslint --fix '**/*.{js,ts,json}' && prettier --write . && solhint 'contracts/**/*.sol' --fix --noPrompt",
     "test": "hardhat test"
+  },
+  "engines": {
+    "node": ">=18.16.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ignition": "^3.0.3",
@@ -27,7 +28,7 @@
     "@typescript-eslint/parser": "^8.46.2",
     "cross-env": "^10.1.0",
     "dotenv": "^17.2.3",
-    "eslint": "^9.38.0",
+    "eslint": "^8.55.0",
     "eslint-config-prettier": "^10.1.8",
     "forge-std": "github:foundry-rs/forge-std#v1.9.4",
     "hardhat": "^3.0.7",

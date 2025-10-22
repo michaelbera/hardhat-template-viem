@@ -1,7 +1,7 @@
 import hre from "hardhat";
 import path from "path";
 
-import MockERC20Module from "../../ignition/modules/MockERC20.js";
+import MockERC20Module from "../ignition/modules/MockERC20.js";
 
 async function main() {
   const connection = await hre.network.connect();

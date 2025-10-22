@@ -4,11 +4,9 @@ import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 // To make use of automatic environment setup:
 // - Duplicate .env.example file and name it .env
 // - Fill in the environment variables
-import dotenv from "dotenv";
+import "dotenv/config";
 import type { HardhatUserConfig } from "hardhat/config";
 import { HttpNetworkAccountsUserConfig } from "hardhat/types/config";
-
-dotenv.config({ path: `.env.${process.env.NODE_ENV || "example"}` });
 
 // Set your preferred authentication method
 //
