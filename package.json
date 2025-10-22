@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
+    "contract-size": "tsx scripts/contract-size.ts",
     "lint": "$npm_execpath run lint:ts && $npm_execpath run lint:sol",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",
@@ -36,6 +37,7 @@
     "prettier-plugin-solidity": "^2.1.0",
     "solhint": "^6.0.1",
     "solhint-plugin-prettier": "^0.1.0",
+    "tsx": "^4.20.6",
     "typescript": "~5.8.0",
     "viem": "^2.30.0"
   },

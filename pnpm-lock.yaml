@@ -59,6 +59,9 @@ importers:
       solhint-plugin-prettier:
         specifier: ^0.1.0
         version: 0.1.0(prettier-plugin-solidity@2.1.0(prettier@3.6.2))(prettier@3.6.2)
+      tsx:
+        specifier: ^4.20.6
+        version: 4.20.6
       typescript:
         specifier: ~5.8.0
         version: 5.8.3
