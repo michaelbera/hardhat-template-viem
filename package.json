@@ -7,14 +7,16 @@
     "url": "https://github.com/michaelbera"
   },
   "scripts": {
-    "clean": "rimraf ./artifacts ./cache ./coverage ./types ./coverage.json",
+    "clean": "rm -rf ./artifacts ./cache ./coverage ./types ./coverage.json ./ignition/deployments",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
-    "contract-size": "tsx scripts/contract-size.ts",
     "lint": "$npm_execpath run lint:ts && $npm_execpath run lint:sol",
     "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
     "lint:ts": "eslint --ignore-path ./.eslintignore --ext .js,.ts .",
     "lint:fix": "eslint --fix '**/*.{js,ts,json}' && prettier --write . && solhint 'contracts/**/*.sol' --fix --noPrompt",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "tasks": "tsx scripts/plugins/run.ts --dir tasks",
+    "deploy": "tsx scripts/plugins/run.ts --dir deploy",
+    "contract-size": "tsx scripts/plugins/contract-size.ts"
   },
   "engines": {
     "node": ">=18.16.0"

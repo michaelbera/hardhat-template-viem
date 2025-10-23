@@ -1,13 +1,19 @@
 import { network } from "hardhat";
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { before, describe, it } from "node:test";
 import { getAddress, parseEther } from "viem";
 
-describe("Staking", async function () {
-  const { viem } = await network.connect();
-  const [deployer, user] = await viem.getWalletClients();
+void describe("Staking", function () {
+  let viem: any;
+  let _deployer: any; // unused on purpose
+  let user: any;
 
-  it("Should deploy MockERC20 token", async function () {
+  before(async () => {
+    ({ viem } = await network.connect());
+    [_deployer, user] = await viem.getWalletClients();
+  });
+
+  void it("Should deploy MockERC20 token", async function () {
     const token = await viem.deployContract("MockERC20", ["Test Token", "TEST", 18]);
 
     const name = await token.read.name();
@@ -19,7 +25,7 @@ describe("Staking", async function () {
     assert.equal(decimals, 18);
   });
 
-  it("Should stake tokens successfully", async function () {
+  void it("Should stake tokens successfully", async function () {
     // Deploy token
     const token = await viem.deployContract("MockERC20", ["Test Token", "TEST", 18]);
 
@@ -50,7 +56,7 @@ describe("Staking", async function () {
     assert.equal(stakingBalance, stakeAmount);
   });
 
-  it("Should emit Staked event when staking", async function () {
+  void it("Should emit Staked event when staking", async function () {
     // Deploy token
     const token = await viem.deployContract("MockERC20", ["Test Token", "TEST", 18]);
 
