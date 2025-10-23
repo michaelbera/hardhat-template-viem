@@ -28,8 +28,8 @@ const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
     : undefined;
 
 if (accounts == null) {
-  throw new Error(
-    "Could not find MNEMONIC or PRIVATE_KEY environment variables. It will not be possible to execute transactions in your example.",
+  console.warn(
+    "⚠️  Warning: No MNEMONIC or PRIVATE_KEY environment variable set. Deployments may fail if the network requires authentication.",
   );
 }
 

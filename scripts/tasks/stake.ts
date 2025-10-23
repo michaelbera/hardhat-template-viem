@@ -6,7 +6,6 @@ async function main() {
   const { viem } = await network.connect();
   const publicClient = await viem.getPublicClient();
   const [senderClient] = await viem.getWalletClients();
-  console.log("senderClient====>", senderClient.account.address);
 
   const { mockERC20, staking } = await deployStaking();
   const txMint = await mockERC20.write.mint([senderClient.account.address, 100n], {

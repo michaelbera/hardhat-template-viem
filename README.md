@@ -1,206 +1,439 @@
-# Hardhat Template [![Open in Gitpod][gitpod-badge]][gitpod] [![Github Actions][gha-badge]][gha] [![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+# Hardhat Template with Viem ⚡
 
-[gitpod]: https://gitpod.io/#https://github.com/paulrberg/hardhat-template
-[gitpod-badge]: https://img.shields.io/badge/Gitpod-Open%20in%20Gitpod-FFB45B?logo=gitpod
-[gha]: https://github.com/paulrberg/hardhat-template/actions
-[gha-badge]: https://github.com/paulrberg/hardhat-template/actions/workflows/ci.yml/badge.svg
+[![Hardhat][hardhat-badge]][hardhat] [![License: MIT][license-badge]][license]
+
 [hardhat]: https://hardhat.org/
 [hardhat-badge]: https://img.shields.io/badge/Built%20with-Hardhat-FFDB1C.svg
 [license]: https://opensource.org/licenses/MIT
 [license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
 
-A Hardhat-based template for developing Solidity smart contracts, with sensible defaults.
+A modern Hardhat template for developing Solidity smart contracts with **Viem** integration, featuring automated
+deployment workflows and sensible defaults.
 
-- [Hardhat](https://github.com/nomiclabs/hardhat): compile, run and test smart contracts
-- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript bindings for smart contracts
-- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
-- [Solhint](https://github.com/protofire/solhint): code linter
-- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
-- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
+## 🚀 Features
 
-## Getting Started
+- **[Hardhat 3.x](https://hardhat.org/)** - Ethereum development environment
+- **[Viem](https://viem.sh/)** - TypeScript interface for Ethereum (lightweight alternative to ethers.js)
+- **[Hardhat Ignition](https://hardhat.org/ignition)** - Declarative deployment system
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe smart contract interactions
+- **[Solhint](https://github.com/protofire/solhint)** - Solidity linter
+- **[Prettier](https://prettier.io/)** - Code formatter with Solidity support
+- **[ESLint](https://eslint.org/)** - TypeScript/JavaScript linter
+- **Automated Deployment System** - Run all deployments in sequence with one command
+- **Task Runner** - Execute contract interaction scripts easily
 
-Click the [`Use this template`](https://github.com/paulrberg/hardhat-template/generate) button at the top of the page to
-create a new repository with this repo as the initial state.
+## 📦 What's Included
 
-## Features
+- **Sample Contracts**: `Staking.sol` and `MockERC20.sol` with OpenZeppelin integration
+- **Deployment Scripts**: Automated deployment workflow in `scripts/deploy/`
+- **Task Scripts**: Contract interaction examples in `scripts/tasks/`
+- **Test Suite**: Complete test examples using Viem
+- **Multi-network Configuration**: Ready for localhost, testnets, and mainnet
 
-This template builds upon the frameworks and libraries mentioned above, so for details about their specific features,
-please consult their respective documentations.
+## 🏁 Getting Started
 
-For example, for Hardhat, you can refer to the [Hardhat Tutorial](https://hardhat.org/tutorial) and the
-[Hardhat Docs](https://hardhat.org/docs). You might be in particular interested in reading the
-[Testing Contracts](https://hardhat.org/tutorial/testing-contracts) section.
+### Prerequisites
 
-### Sensible Defaults
+- **Node.js** >= 18.16.0
+- **pnpm** (recommended) or npm/yarn
 
-This template comes with sensible default configurations in the following files:
+### Installation
 
-```text
-├── .editorconfig
-├── .eslintignore
-├── .eslintrc.yml
-├── .gitignore
-├── .prettierignore
-├── .prettierrc.yml
-├── .solcover.js
-├── .solhint.json
-└── hardhat.config.ts
+1. **Clone or use this template**
+
+   ```bash
+   git clone <your-repo-url>
+   cd hardhat-template-viem
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up environment variables**
+
+   Copy the example env file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edit `.env` and add your credentials:
+
+   ```env
+   # Choose one authentication method:
+   PRIVATE_KEY=your_private_key_here
+   # OR
+   MNEMONIC=your twelve word mnemonic phrase here
+
+   # Network RPC URLs (optional, uses public RPCs by default)
+   SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR-API-KEY
+   MAINNET_RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR-API-KEY
+   ```
+
+   ⚠️ **Never commit your `.env` file!**
+
+## 📁 Project Structure
+
+```
+hardhat-template-viem/
+├── contracts/              # Solidity smart contracts
+│   ├── Staking.sol        # Example staking contract
+│   └── helper/
+│       └── MockERC20.sol  # Mock ERC20 token for testing
+├── ignition/
+│   ├── modules/           # Hardhat Ignition deployment modules
+│   │   ├── MockERC20.ts
+│   │   └── staking.ts
+│   ├── parameters/        # Network-specific parameters
+│   │   ├── 31337.json    # Localhost
+│   │   ├── bepolia.json  # Berachain testnet
+│   │   └── ...
+│   └── deployments/       # Deployment artifacts (auto-generated)
+├── scripts/
+│   ├── deploy/            # Deployment scripts (run in order)
+│   │   ├── 00_mockERC20.ts
+│   │   └── 01_staking.ts
+│   ├── tasks/             # Contract interaction scripts
+│   │   └── stake.ts
+│   └── plugins/           # Automation plugins
+│       ├── deploy.ts      # Auto-deploy runner
+│       ├── tasks.ts       # Task runner
+│       └── contract-size.ts
+├── test/                  # Test files
+│   └── Staking.ts
+├── hardhat.config.ts      # Hardhat configuration
+├── package.json
+└── .env                   # Environment variables (create from .env.example)
 ```
 
-### VSCode Integration
+## 🔧 Common Commands
 
-This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Nomic
-Foundation's [Solidity extension](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity).
+### Development
 
-### GitHub Actions
+```bash
+# Clean artifacts and cache
+pnpm clean
 
-This template comes with GitHub Actions pre-configured. Your contracts will be linted and tested on every push and pull
-request made to the `main` branch.
+# Compile contracts
+pnpm compile
 
-Note though that to make this work, you must use your `INFURA_API_KEY` and your `MNEMONIC` as GitHub secrets.
+# Run tests
+pnpm test
 
-For more information on how to set up GitHub secrets, check out the
-[docs](https://docs.github.com/en/actions/security-guides/using-secrets-in-github-actions).
+# Check contract sizes
+pnpm contract-size
 
-You can edit the CI script in [.github/workflows/ci.yml](./.github/workflows/ci.yml).
-
-## Usage
-
-### Pre Requisites
-
-First, you need to install the dependencies:
-
-```sh
-bun install
+# Lint code
+pnpm lint              # Run all linters
+pnpm lint:sol          # Lint Solidity only
+pnpm lint:ts           # Lint TypeScript only
+pnpm lint:fix          # Auto-fix linting issues
 ```
 
-Then, you need to set up all the required
-[Hardhat Configuration Variables](https://hardhat.org/hardhat-runner/docs/guides/configuration-variables). You might
-also want to install some that are optional.
+### Deployment
 
-To assist with the setup process, run `bunx hardhat vars setup`. To set a particular value, such as a BIP-39 mnemonic
-variable, execute this:
+The deployment system automatically runs all scripts in `scripts/deploy/` in alphabetical order.
 
-```sh
-bunx hardhat vars set MNEMONIC
-? Enter value: ‣ here is where your twelve words mnemonic should be put my friend
+```bash
+# Deploy to localhost (default)
+pnpm deploy
+
+# Deploy to specific network
+pnpm deploy --network sepolia
+pnpm deploy --network bepolia
+pnpm deploy --network mainnet
 ```
 
-If you do not already have a mnemonic, you can generate one using this [website](https://iancoleman.io/bip39/).
+**How it works:**
 
-### Compile
+- Scripts are named with prefixes (`00_`, `01_`, etc.) to control execution order
+- Each script runs sequentially - if one fails, deployment stops
+- Deployment state is tracked in `ignition/deployments/`
+- Contracts are reused if already deployed (based on deployment ID)
 
-Compile the smart contracts with Hardhat:
+**Example: Creating a new deployment script**
 
-```sh
-bun run compile
+Create `scripts/deploy/02_myContract.ts`:
+
+```typescript
+import MyContractModule from "../../ignition/modules/MyContract.js";
+import hre from "hardhat";
+
+export default async function main() {
+  const connection = await hre.network.connect();
+
+  const { myContract } = await connection.ignition.deploy(MyContractModule, {
+    displayUi: true,
+  });
+
+  console.log(`MyContract deployed to: ${myContract.address}`);
+  return myContract;
+}
+
+main().catch(console.error);
 ```
 
-### TypeChain
+### Running Tasks
 
-Compile the smart contracts and generate TypeChain bindings:
+Tasks are scripts that interact with already-deployed contracts.
 
-```sh
-bun run typechain
+```bash
+# Run a specific task
+pnpm tasks stake --network localhost
+
+# Run all tasks in sequence
+pnpm tasks all --network sepolia
+
+# List available tasks
+pnpm tasks
 ```
 
-### Test
+**Example: Creating a new task**
 
-Run the tests with Hardhat:
+Create `scripts/tasks/myTask.ts`:
 
-```sh
-bun run test
+```typescript
+import hre from "hardhat";
+
+async function main() {
+  const connection = await hre.network.connect();
+  const [signer] = await connection.viem.getWalletClients();
+
+  // Get your deployed contract
+  const myContract = await connection.viem.getContractAt(
+    "MyContract",
+    "0x...", // contract address
+  );
+
+  // Interact with it
+  const tx = await myContract.write.someFunction([arg1, arg2], {
+    account: signer.account,
+  });
+
+  console.log(`Transaction hash: ${tx}`);
+}
+
+main().catch(console.error);
 ```
 
-### Lint Solidity
+## 🌐 Network Configuration
 
-Lint the Solidity code:
+### Supported Networks
 
-```sh
-bun run lint:sol
+The template comes pre-configured for:
+
+- **localhost** / **hardhat** - Local development
+- **sepolia** - Ethereum testnet
+- **bepolia** - Berachain testnet
+- **mainnet** - Ethereum mainnet
+
+### Adding a New Network
+
+1. **Edit `hardhat.config.ts`:**
+
+```typescript
+networks: {
+  mynetwork: {
+    chainId: 12345,
+    url: process.env.MY_NETWORK_RPC_URL || "https://rpc.mynetwork.com",
+    accounts,
+  },
+}
 ```
 
-### Lint TypeScript
+2. **Add RPC URL to `.env`:**
 
-Lint the TypeScript code:
-
-```sh
-bun run lint:ts
+```env
+MY_NETWORK_RPC_URL=https://rpc.mynetwork.com
 ```
 
-### Coverage
+3. **Create parameters file (optional):**
 
-Generate the code coverage report:
+Create `ignition/parameters/mynetwork.json`:
 
-```sh
-bun run coverage
+```json
+{
+  "MockERC20Module": {
+    "name": "Test Token",
+    "symbol": "TEST",
+    "initialSupply": "1000000000000000000000000"
+  }
+}
 ```
 
-### Report Gas
+4. **Deploy:**
 
-See the gas usage per unit test and average gas per method call:
-
-```sh
-REPORT_GAS=true bun run test
+```bash
+pnpm deploy --network mynetwork
 ```
 
-### Clean
+## 🔍 Working with Viem
 
-Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
+This template uses [Viem](https://viem.sh/) instead of ethers.js for a more modern, type-safe experience.
 
-```sh
-bun run clean
+### Key Differences from Ethers.js
+
+```typescript
+// Getting clients
+const publicClient = await connection.viem.getPublicClient(); // For reading
+const [walletClient] = await connection.viem.getWalletClients(); // For writing
+
+// Reading from contracts
+const balance = await contract.read.balanceOf([address]);
+
+// Writing to contracts
+const hash = await contract.write.transfer([recipient, amount], {
+  account: walletClient.account,
+});
+
+// Getting contract instance
+const contract = await connection.viem.getContractAt("ContractName", contractAddress);
 ```
 
-### Deploy
+### Benefits of Viem
 
-Deploy the contracts to Hardhat Network:
+- ⚡ **Smaller bundle size** - ~5x smaller than ethers.js
+- 🎯 **Better TypeScript support** - Full type inference
+- 🚀 **Modern API** - Uses native BigInt instead of custom BigNumber
+- 📦 **Tree-shakeable** - Import only what you need
 
-```sh
-bun run deploy:contracts
+## 🧪 Testing
+
+Run the test suite:
+
+```bash
+pnpm test
 ```
 
-### Tasks
+Example test structure with Viem:
 
-#### Deploy Lock
+```typescript
+import { loadFixture } from "@nomicfoundation/hardhat-toolbox-viem/network-helpers";
+import { expect } from "chai";
+import hre from "hardhat";
 
-Deploy a new instance of the Lock contract via a task:
+describe("MyContract", function () {
+  async function deployFixture() {
+    const connection = await hre.network.connect();
+    const [owner, user] = await connection.viem.getWalletClients();
 
-```sh
-bun run task:deployLock --unlock 100 --value 0.1
+    const { myContract } = await connection.ignition.deploy(MyContractModule);
+
+    return { myContract, owner, user, connection };
+  }
+
+  it("Should do something", async function () {
+    const { myContract, owner } = await loadFixture(deployFixture);
+
+    await myContract.write.someFunction([arg], {
+      account: owner.account,
+    });
+
+    expect(await myContract.read.someValue()).to.equal(expectedValue);
+  });
+});
 ```
 
-### Syntax Highlighting
+## 📝 Best Practices
 
-If you use VSCode, you can get Solidity syntax highlighting with the
-[hardhat-solidity](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity) extension.
+### Deployment Scripts
 
-## Using GitPod
+1. **Use deployment IDs** to enable contract reuse across deployments
+2. **Number your scripts** (`00_`, `01_`, etc.) to control execution order
+3. **Return contract instances** so other scripts can import and use them
+4. **Add console logs** to track deployment progress
 
-[GitPod](https://www.gitpod.io/) is an open-source developer platform for remote development.
+### Task Scripts
 
-To view the coverage report generated by `bun run coverage`, just click `Go Live` from the status bar to turn the server
-on/off.
+1. **Check network** before executing sensitive operations
+2. **Add descriptive logging** for better debugging
+3. **Handle errors gracefully** with try-catch blocks
+4. **Verify contract addresses** before interactions
 
-## Local development with Ganache
+### Security
 
-### Install Ganache
+1. **Never commit `.env` files** - they're gitignored by default
+2. **Use separate wallets** for testnet and mainnet
+3. **Double-check network** before deploying to mainnet
+4. **Verify contracts** on block explorers after deployment
 
-```sh
-npm i -g ganache
+## 🛠️ Advanced Usage
+
+### Contract Size Analysis
+
+Check if your contracts are within size limits:
+
+```bash
+pnpm contract-size
 ```
 
-### Run a Development Blockchain
+### Custom Hardhat Tasks
 
-```sh
-ganache -s test
+You can still create traditional Hardhat tasks in `hardhat.config.ts`:
+
+```typescript
+task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
+  const connection = await hre.network.connect();
+  const clients = await connection.viem.getWalletClients();
+
+  for (const client of clients) {
+    console.log(client.account.address);
+  }
+});
 ```
 
-> The `-s test` passes a seed to the local chain and makes it deterministic
+### Forking Mainnet
 
-Make sure to set the mnemonic in your `.env` file to that of the instance running with Ganache.
+Test against mainnet state:
 
-## License
+```bash
+npx hardhat node --fork https://eth-mainnet.g.alchemy.com/v2/YOUR-API-KEY
+```
 
-This project is licensed under MIT.
+Then deploy to the fork:
+
+```bash
+pnpm deploy --network localhost
+```
+
+## 🐛 Troubleshooting
+
+### "No MNEMONIC or PRIVATE_KEY environment variable set"
+
+**Solution:** Copy `.env.example` to `.env` and add your private key or mnemonic.
+
+### "Contract already deployed" errors
+
+**Solution:** Either:
+
+- Use a different deployment ID in your script
+- Clear deployments: `pnpm clean` (warning: removes all deployment history)
+- Manually delete specific deployment in `ignition/deployments/`
+
+### TypeScript errors in scripts
+
+**Solution:** Make sure your imports use `.js` extensions:
+
+```typescript
+import MyModule from "./modules/MyModule.js";  // Correct
+import MyModule from "./modules/MyModule";     // Wrong
+```
+
+### "Insufficient funds" errors
+
+**Solution:** Make sure your wallet has enough native tokens (ETH, BERA, etc.) for gas fees.
+
+## 📚 Resources
+
+- [Hardhat Documentation](https://hardhat.org/docs)
+- [Hardhat Ignition Documentation](https://hardhat.org/ignition/docs/getting-started)
+- [Viem Documentation](https://viem.sh/)
+- [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts/)
+- [Solidity Documentation](https://docs.soliditylang.org/)
+
+## 📄 License
+
+This project is licensed under the MIT License.
